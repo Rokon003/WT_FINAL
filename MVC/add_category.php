@@ -7,7 +7,7 @@
         
 		<fieldset>
 		    <legend align="center"><h1> Add Category:</h1></legend>
-            <h5><?php echo $err_db ?></h5>
+            <h5><?php echo $err_db; ?></h5>
 			<form action="" method="post">
 				<table align="center" >
 					<tr>
