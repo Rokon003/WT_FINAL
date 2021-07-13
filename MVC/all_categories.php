@@ -1,6 +1,6 @@
 <?php
     include 'Controllers/categorycontroller.php';
-    $categories =getAllCategories();
+    $categories = getAllCategories();
 ?>
 <html>
 	<head></head>
@@ -27,17 +27,17 @@
 					</tr>
                     <tr>
                         <?php
-                        $ii=1;
-					    foreach($categories as $c){
-                            echo "<tr>";
-                                echo"<td>$i</td>";
-                                echo"<td>".$c["name"]."</td>";
-                                echo'<td ><a href="editcategory.php?id='.$c["id"].'"class="btn-btn-success">Edit</a></td>';
-                                echo'<td ><a class="btn-btn-success">Delete</a></td>';
-                                
+                            $i=1;
+					        foreach($categories as $c){
                                 echo "<tr>";
-                                i++
-                        }
+                                    echo"<td>$i</td>";
+                                    echo"<td>".$c["name"]."</td>";
+                                    echo'<td ><a href="edit_category.php?id='.$c["id"].'"class="btn-btn-success">Edit</a></td>';
+                                    echo'<td ><input type="submit" name="delete" value="Delete"></td>';
+                                echo "<tr>";
+                                $i++;
+                            }
+						?>
 						
 					</tr>
 				</table>

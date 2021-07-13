@@ -38,7 +38,7 @@
         }
         if(!$hasError){
 			
-			$rs=updateCategory($_POST["name"],$_POST["id"])
+			$rs=updateCategory($_POST["name"],$_POST["id"]);
 			if($rs==true){
 				header("Location: all_categories.php");
 			}
@@ -52,15 +52,15 @@
 		$query= "inset into categories values (NULL,'$name')";
 		return execute($query);	
 	}
-    function getAllCategories($name){
+    function getAllCategories(){
 		$query= "select * from categories ";
-        $rs = get($query)
+        $rs = get($query);
 		return $rs;	
 	}
 
     function getCategory($id){
 		$query= "select * from categories where id=$id";
-        $rs = get($query)
+        $rs = get($query);
 		return $rs[0];	
 	}
 	function updateCategory($name,$id){

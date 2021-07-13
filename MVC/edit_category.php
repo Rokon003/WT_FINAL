@@ -19,7 +19,7 @@
 					</tr>
 					
 					<tr>
-					    <td><input type="submit" value="Edit Category"></td>
+					    <td><input type="submit" name="edit_category" value="Edit Category"></td>
 					</tr>
 					
 				</table>
