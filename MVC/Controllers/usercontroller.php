@@ -51,39 +51,40 @@
 		if(!$hasError){
 			
 			$rs=insertUser($name,$uname,$_POST["pass"],$_POST["email"]);
-			if($rs==true){
+			if($rs===true){
 				header("Location: login.php");
 			}
 			$err_db= $rs;
 			
 		}
-		else if (isset ($_POST["Login"])){
-			if(empty($_POST["uname"])){
-				$err_uname="Username Required";
-				$hasError = true;
-			}
-			else{
-				$uname=$_POST["uname"];
-			}
-			if(empty($_POST["pass"])){
-				$err_pass="pass Required";
-				$hasError = true;
-			}
-			else{
-				$pass=$_POST["pass"];
-			}
-			if(authenticateUser($_POST["uname"],$_POST["pass"])){
-				session_start();
-				$_SESSION["Loggeduser"] = $_POST["uname"];
-				header("Location: add_category.php");
-			}
-			$err_db= "Username password invalid";
+	}
+	else if (isset ($_POST["Login"])){
+		if(empty($_POST["uname"])){
+			$err_uname="Username Required";
+			$hasError = true;
 		}
-
+		else{
+			$uname=$_POST["uname"];
+		}
+		if(empty($_POST["pass"])){
+			$err_pass="pass Required";
+			$hasError = true;
+		}
+		else{
+			$pass=$_POST["pass"];
+		}
+		if(authenticateUser($_POST["uname"],$_POST["pass"])){
+			session_start();
+			$_SESSION["Loggeduser"] = $_POST["uname"];
+			header("Location: add_category.php");
+		}
+		$err_db= "Username password invalid";
 	}
 
+	
+
 	function insertUser($name,$uname,$pass,$email){
-		$query= "inset into users values (NULL,'$name','$uname','$pass','$email')";
+		$query= "insert into users values (NULL,'$name','$uname','$pass','$email')";
 		return execute($query);	
 	}
 	function authenticateUser($uname,$pass){
