@@ -1,16 +1,17 @@
 <?php
     require_once 'Models/db_config.php';
+	
     $name="";
 	$err_name="";
     $c_id="";
     $err_c_id="";
-    $price=""
+    $price="";
     $err_price="";
     $qty="";
 	$err_qty="";
     $desc="";
     $err_desc="";
-    $img=""
+    $img="";
     $err_img="";
 	$err_db="";
 
@@ -63,8 +64,12 @@
 		
 		
         if(!$hasError){
+
+			$fileType=strtolower(pathinfo(basename($_FILES["image"]["name"]), PATHINFO_EXTENSION));
+			    $file = "storage/product_images/".uniqid()."$fileType";
+				move_uploaded_file($_FILES["image"]["tmp_name"],$file);
 			
-			$rs=insertProduct($_POST["name"],1,$_POST["price"],$_POST["quantity"],$_POST["description"],"dummy");
+			$rs=insertProduct($_POST["name"],$_POST["c_id"],$_POST["price"],$_POST["quantity"],$_POST["description"],$file);
 			if($rs===true){
 				header("Location: all_products.php");
 			}

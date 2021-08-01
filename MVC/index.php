@@ -1,6 +1,6 @@
 <?php
 	
-	include 'db_config.php';
+	require_once 'db_config.php';
 	$query = "select id,name,username from users";
 	
 	$result = get($query);

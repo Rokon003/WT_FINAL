@@ -1,5 +1,5 @@
 <?php
-    include 'Models/db_config.php';
+    require_once 'Models/db_config.php';
     $name="";
 	$err_name="";
 	$err_db="";

@@ -1,6 +1,8 @@
 <?php
-    include 'Controllers/productcontroller.php';
-	$products= getAllProducts();
+    require_once 'Controllers/productcontroller.php';
+	require_once 'Controllers/categorycontroller.php';
+	
+?>
 <html>
 	<head></head>
 	<body>
@@ -8,7 +10,7 @@
 		<fieldset>
 		    <legend align="center"><h1> Add Product:</h1></legend>
             <h5><?php echo $err_db; ?></h5>
-			<form action="" method="post">
+			<form action="" method="post" enctype="multipart/form-data">
 				<table align="center" >
 					<tr>
 					    <td><b><i>Name: <i><b></td>
@@ -18,8 +20,13 @@
                     <tr>
 						<td><b><i>Category:  <b><i></td>
 						<td>
-							<select name="">
+							<select name="c_id">
 								<option selected disabled>--Choose--</option>
+								<?php
+								    foreach($categories as $c){
+										echo'<option value="'.$c[$id].'">'.$c[$name].'</option>';
+									}
+								?>
 							</select> 
 						</td>
 						<td><span><small><?php echo $err_types;?></small></span></td>
@@ -41,7 +48,7 @@
 					</tr>
                     <tr>
 					    <td><b><i>Image: <i><b></td>
-						<td><input type="file" value="<?php echo $img; ?>"></td>
+						<td><input type="file"  name="image" value="<?php echo $img; ?>"></td>
 						
 					</tr>
                     

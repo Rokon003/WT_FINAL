@@ -1,5 +1,5 @@
 <?php
-    include 'Controllers/productcontroller.php';
+    require_once 'Controllers/productcontroller.php';
     $products= getAllProducts();
 ?>
 <html>
@@ -26,6 +26,7 @@
 					    foreach($products as $p){
                             echo "<tr>";
                                 echo"<td>$i</td>";
+                                echo"<td><img src='".$p["image"]."' width='100px' height='100px'></td>";
                                 echo"<td>".$p["name"]."</td>";
                                 echo"<td>".$p["c_id"]."</td>";
                                 echo"<td>".$p["price"]."</td>";

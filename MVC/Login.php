@@ -1,5 +1,5 @@
 <?php
-    include 'Controllers/usercontroller.php';
+    require_once 'Controllers/usercontroller.php';
 ?>
 <html>
     <head></head>

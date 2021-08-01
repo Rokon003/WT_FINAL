@@ -1,5 +1,5 @@
 <?php
-    include 'Controllers/categorycontroller.php';
+    require_once 'Controllers/categorycontroller.php';
     $categories = getAllCategories();
 ?>
 <html>
