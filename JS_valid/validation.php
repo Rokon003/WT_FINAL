@@ -1,4 +1,5 @@
 <?php
+    require_once 'Models/db_config.php';
 	$name="";
 	$err_name="";
 	$uname="";
@@ -11,11 +12,12 @@
 	$err_email="";
 	$phone="";
 	$err_phone="";
+	$err_db="";
 	
 	$hasError=false;
 	
 
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
+	if(isset($_POST["register"])){
 		
 		if(empty($_POST["name"])){
 			$err_name="Name Required";
@@ -28,59 +30,59 @@
 		else{
 			$name=$_POST["name"];
 		}
-		if(empty($_POST["username"])){
+		if(empty($_POST["uname"])){
 			$err_uname="Username Required";
 			$hasError = true;
 		}
 		elseif(isset($_POST[""])){
-		    echo htmlspecialchars($_POST["username"]);
+		    echo htmlspecialchars($_POST["uname"]);
 		}
-	    elseif(strlen($_POST["username"])<6){
+	    elseif(strlen($_POST["uname"])<6){
 			$err_uname="Username Must Be 6 characters Long";
 			$hasError = true;
 		}
-		elseif(strpos($_POST["username"],"")){
+		elseif(strpos($_POST["uname"],"")){
 			$err_uname="Username Should Not Contain White Space";
 			$hasError = true;
 			
 		}
 		else{
-			$uname=$_POST["username"];
+			$uname=$_POST["uname"];
 		}
-		if(empty($_POST["password"])){
+		if(empty($_POST["pass"])){
 			$err_pass="password Required";
 			$hasError = true;
 			
 		}
 		
-		elseif(strlen($_POST["password"])<6){
+		elseif(strlen($_POST["pass"])<6){
 			$err_pass="password must Be 6 characters Long";
 			$hasError = true;
 		}
-		elseif(strpos($_POST["password"],"")){
+		elseif(strpos($_POST["pass"],"")){
 			$err_pass="Username Should Not Contain White Space";
 			$hasError = true;
 
 		}
 		else{
-			$pass = $_POST["password"];
+			$pass = $_POST["pass"];
 		}
-		if(empty($_POST["confirm_password"])){
+		if(empty($_POST["c_pass"])){
 			$err_cpass="Retype password";
 			$hasError = true;
 		}
-		elseif(strlen($_POST["password"])<6){
+		elseif(strlen($_POST["c_pass"])<6){
 			$err_pass="password must Be 6 characters Long";
 		}
 		else{
-			$cpass = $_POST["confirm_password"];
+			$cpass = $_POST["c_pass"];
 		}
 		if ($pass!= $cpass) {
             $err_cpass = "you have to write both password correctly";
 			$hasError = true;
 		}
 		else{
-			$cpass = $_POST["confirm_password"];
+			$cpass = $_POST["c_pass"];
 		}
 		
 		if(empty($_POST["email"])){
@@ -90,19 +92,11 @@
 		else{
 			$email = $_POST["email"];
 		}
-		if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/i", $email)) 
-		{
-            $err_email = "Email address must contain @";
-			$hasError = true;
-		}
-		else{
-			$email = $_POST["email"];
-		}
 		if(empty($_POST["phone"])){
 			$err_phone = "Contact number Required";
 			$hasError = true;
 		}
-		elseif (strlen($_POST["phone"]) <=11) 
+		elseif (strlen($_POST["phone"]) <= 10) 
 		{
             $err_phone = "Phone Number needs to be greater than 11";
 			$hasError = true;
@@ -114,15 +108,48 @@
 		
 		
 		if(!$hasError){
-			echo"<b> Admin Profile: </b><br><br>";
-			echo $_POST["name"]."<br>";
-			echo $_POST["username"]."<br>";
-			echo $_POST["password"]."<br>";
-			echo $_POST["confirm_password"]."<br>";
-			echo $_POST["email"]."<br>";
-			echo $_POST["phone"]."<br>";
+			$rs=insertUser($name,$uname,$_POST["pass"],$_POST["email"]);
+			if($rs===true){
+				header("Location: login.php");
+			}
+			$err_db= $rs;
+			
 			
 		}
 	
+	}
+	else if (isset ($_POST["Login"])){
+		if(empty($_POST["uname"])){
+			$err_uname="Username Required";
+			$hasError = true;
+		}
+		else{
+			$uname=$_POST["uname"];
+		}
+		if(empty($_POST["pass"])){
+			$err_pass="pass Required";
+			$hasError = true;
+		}
+		else{
+			$pass=$_POST["pass"];
+		}
+		if(authenticateUser($_POST["uname"],$_POST["pass"])){
+			session_start();
+			$_SESSION["Loggeduser"] = $_POST["uname"];
+			header("Location: add_category.php");
+		}
+		$err_db= "Username password invalid";
+	}
+	function insertUser($name,$uname,$pass,$email){
+		$query= "insert into users values (NULL,'$name','$uname','$pass','$email')";
+		return execute($query);	
+	}
+	function authenticateUser($uname,$pass){
+		$query ="select * from users where username='$uname' and 'password='$pass'";
+		$rs = get($query);
+		if (count($rs)>0){
+			return true;
+		}
+		return false;
 	}
 ?>
